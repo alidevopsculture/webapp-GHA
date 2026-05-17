@@ -37,16 +37,16 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           command_timeout: 30m
           script: |
-            docker network create two-tier || true
-            docker pull mysql:8.0
-            docker run --name mysql-db \
+            sudo docker network create two-tier || true
+            sudo docker pull mysql:8.0
+            sudo docker run --name mysql-db \
               -e MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
               -e MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} \
               -e MYSQL_USER=${{ secrets.MYSQL_USER }} \
               -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
               --network two-tier -p 3306:3306 -d mysql:8.0
-            docker pull ${{ secrets.DOCKER_USERNAME }}/webapp:latest
-            docker stop webapp || true
-            docker rm webapp || true
-            docker run --name webapp --network two-tier -p 5000:5000 --restart=always -d \
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/webapp:latest
+            sudo docker stop webapp || true
+            sudo docker rm webapp || true
+            sudo docker run --name webapp --network two-tier -p 5000:5000 --restart=always -d \
               ${{ secrets.DOCKER_USERNAME }}/webapp:latest
