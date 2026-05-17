@@ -38,8 +38,6 @@ jobs:
           command_timeout: 30m
           script: |
             sudo docker network create two-tier || true
-            sudo docker stop mysql-db || true
-            sudo docker rm mysql-db || true
             sudo docker pull mysql:8.0
             sudo docker run --name mysql-db \
               -e MYSQL_HOST=mysql-db \
